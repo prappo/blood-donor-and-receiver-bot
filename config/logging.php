@@ -76,6 +76,12 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'bot' => [
+            'driver' => 'syslog',
+            'path' => storage_path('logs/bot.log'),
+            'level' => 'debug',
+        ]
     ],
 
 ];
