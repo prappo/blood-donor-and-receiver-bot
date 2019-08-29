@@ -2,6 +2,7 @@
 
 namespace App\Conversations;
 
+use App\FbUsers;
 use BotMan\BotMan\Messages\Attachments\Location;
 use BotMan\BotMan\Messages\Conversations\Conversation;
 use BotMan\BotMan\Messages\Incoming\Answer;
@@ -26,7 +27,11 @@ class DonorConversation extends Conversation
     {
         $this->ask('আপনার নাম লিখুন ', function (Answer $answer) {
             $this->name = $answer->getText();
+            FbUsers::where('fbId', $this->bot->getUser()->getId())->update([
+                'name' => $answer->getText()
+            ]);
             $this->askMobile();
+
 
         });
 
@@ -38,14 +43,22 @@ class DonorConversation extends Conversation
 
         $this->ask('আপনার মোবাইল নাম্বারটি লিখুন', function (Answer $answer) {
             $this->mobile = $answer->getText();
+            FbUsers::where('fbId', $this->bot->getUser()->getId())->update([
+                'mobile' => $answer->getText()
+            ]);
             $this->askLocation();
         });
+
+
     }
 
     public function askLocation()
     {
         $this->ask('আপনার ঠিকানা লিখুন', function (Answer $answer) {
             $this->location = $answer->getText();
+            FbUsers::where('fbId', $this->bot->getUser()->getId())->update([
+                'location' => $answer->getText()
+            ]);
             $this->askBloodGroup();
 
 
