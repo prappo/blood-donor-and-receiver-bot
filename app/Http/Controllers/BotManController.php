@@ -46,7 +46,7 @@ class BotManController extends Controller
         $botman->hears('receiver', function ($bot) {
 
             $bot->reply(Question::create('রক্তের গ্রুপ নির্বাচন করুন')->addButtons([
-                Button::create('A-positive')->value('A-positive'),
+                Button::create('A-positive')->value('A-positive-blood'),
                 Button::create('A-negative')->value('A-negative'),
                 Button::create('B-positive')->value('B-positive'),
                 Button::create('B-negative')->value('B-negative'),

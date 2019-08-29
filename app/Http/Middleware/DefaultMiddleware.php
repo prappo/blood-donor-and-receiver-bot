@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\FbUsers;
 use BotMan\BotMan\BotMan;
 use BotMan\BotMan\Interfaces\Middleware\Heard;
 use BotMan\BotMan\Interfaces\Middleware\Sending;
@@ -38,7 +39,13 @@ class DefaultMiddleware implements Received, Captured, Matching, Heard, Sending
      */
     public function received(IncomingMessage $message, $next, BotMan $bot)
     {
-        Log::debug($message->getSender());
+
+        if (!FbUsers::where('fbId', $message->getSender())->exists()) {
+
+            FbUsers::create([
+                'fbId' => $message->getSender()
+            ]);
+        }
         return $next($message);
     }
 
