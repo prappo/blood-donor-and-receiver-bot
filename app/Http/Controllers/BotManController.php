@@ -25,14 +25,14 @@ class BotManController extends Controller
         $botman = app('botman');
 
 
-        $botman->hears('hi', function ($bot) {
+        $botman->hears('GET_STARTED', function ($bot) {
 
             $bot->reply(ButtonTemplate::create('একটি অপশন বাছাই করুন')
-                ->addButton(ElementButton::create('রক্ত খুঁজছি')
+                ->addButton(ElementButton::create('রক্তদাতা খুঁজুন')
                     ->type('postback')
                     ->payload('receiver')
                 )
-                ->addButton(ElementButton::create('রক্ত দিব')
+                ->addButton(ElementButton::create('রক্ত দিন')
                     ->type('postback')
                     ->payload('donor')
                 )
@@ -47,7 +47,7 @@ class BotManController extends Controller
 
         $botman->hears('receiver', function ($bot) {
 
-            $bot->reply(Question::create('রক্তের গ্রুপ নির্বাচন করুন')->addButtons([
+            $bot->reply(Question::create('আপনি যেই রক্তের গ্রুপের রক্তদাতা খুঁজছেন সেই রক্তের গ্রুপ নির্বাচন করুন ')->addButtons([
 
                 Button::create('A positive')->value('SEARCH_BLOOD_A-positive'),
                 Button::create('A negative')->value('SEARCH_BLOOD_A-negative'),
@@ -91,6 +91,7 @@ class BotManController extends Controller
             $blood_group = str_replace('SEARCH_BLOOD_', '', $bot->getMessage()->getText());
 
             if (FbUsers::where('status', 'active')->where('blood_group', $blood_group)->count() != 0) {
+                $bot->reply(FbUsers::where('status', 'active')->where('blood_group', $blood_group)->count() . ' জন রক্তদাতা পাওয়া গিয়েছে । তালিকা নিম্নে দেওয়া হল ');
                 foreach (FbUsers::where('status', 'active')->where('blood_group', $blood_group)->get() as $donor) {
 
                     $bot->reply(ButtonTemplate::create($donor->name)
@@ -98,7 +99,7 @@ class BotManController extends Controller
                             ->type('postback')
                             ->payload('DONOR_DETAILS_' . $donor->fbId)
                         )
-                        ->addButton(ElementButton::create('কল করুন ' . $donor->mobile)
+                        ->addButton(ElementButton::create('কল করুন')
                             ->type('phone_number')
                             ->payload($donor->mobile)
                         )
@@ -116,7 +117,7 @@ class BotManController extends Controller
 
             $id = str_replace('DONOR_DETAILS_', '', $bot->getMessage()->getText());
             $donor = FbUsers::where('fbId', $id)->first();
-            $bot->reply('নামে : ' . $donor->name);
+            $bot->reply('নাম : ' . $donor->name);
             $bot->reply('মোবাইল নাম্বার : ' . $donor->mobile);
             $bot->reply('লোকেশন : ' . $donor->location);
             $bot->reply('রক্তেরগ্রুপ : ' . $donor->blood_group);
@@ -128,11 +129,11 @@ class BotManController extends Controller
             $bot->reply('"রক্ত দিন এবং নিন" একটি স্বয়ংক্রিয় মাধ্যম যেখানে আপনি রক্তদাতা হিসেবে নিবন্ধন করতে পারবেন এবং রক্ত প্রয়োজন হলে রক্তদাতাদের খুঁজতে পারবেন । এই পেইজ এর মেসেজিং কোন মানুষদ্বারা নিয়ন্ত্রিত নয় । ম্যাসেজ এর উত্তর স্বয়ংক্রিয় ।');
 
             $bot->reply(ButtonTemplate::create('একটি অপশন বাছাই করুন')
-                ->addButton(ElementButton::create('রক্ত খুঁজছি')
+                ->addButton(ElementButton::create('রক্তদাতা খুঁজুন')
                     ->type('postback')
                     ->payload('receiver')
                 )
-                ->addButton(ElementButton::create('রক্ত দিব')
+                ->addButton(ElementButton::create('রক্ত দিন')
                     ->type('postback')
                     ->payload('donor')
                 )
@@ -154,9 +155,6 @@ class BotManController extends Controller
     {
         return view('tinker');
     }
-
-
-
 
 
     /**

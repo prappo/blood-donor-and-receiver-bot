@@ -56,11 +56,11 @@ return [
         'greeting' => [
             [
                 'locale' => 'default',
-                'text' => 'Hello!',
+                'text' => 'রক্ত দিন এবং নিন একটি অলাভজনক রক্ত দেওয়া নেওয়া মাধ্যম যা স্বয়ংক্রিয় ভাবে পরিচালিত',
             ],
             [
                 'locale' => 'en_US',
-                'text' => 'Timeless apparel for the masses.',
+                'text' => 'রক্ত দিন এবং নিন একটি অলাভজনক রক্ত দেওয়া নেওয়া মাধ্যম যা স্বয়ংক্রিয় ভাবে পরিচালিত',
             ],
         ],
     ],
@@ -80,22 +80,36 @@ return [
             'composer_input_disabled' => 'true',
             'call_to_actions' => [
                 [
-                    'title' => 'My Account',
+                    'title' => 'রক্ত লাগবে',
+                    'type' => 'postback',
+                    'payload' => 'receiver',
+                ],
+                [
+                    'title' => 'রক্ত দিব',
+                    'type' => 'postback',
+                    'payload' => 'donor',
+                ],
+                [
+                    'title' => 'অ্যাকাউন্ট সেটিংস',
                     'type' => 'nested',
                     'call_to_actions' => [
                         [
-                            'title' => 'Pay Bill',
+                            'title' => 'রক্তদাতা হিসেবে নিবন্ধন করুন',
                             'type' => 'postback',
-                            'payload' => 'PAYBILL_PAYLOAD',
+                            'payload' => 'donor',
                         ],
+                        [
+                            'title' => 'এখন রক্ত দিতে চাচ্ছি না',
+                            'type' => 'postback',
+                            'payload' => 'UNSUBSCRIBE',
+                        ],
+                        [
+                            'title' => 'আমার প্রোফাইল ডিলিট করুন',
+                            'type' => 'postback',
+                            'payload' => 'DELETE_MY_ACCOUNT',
+                        ]
                     ],
-                ],
-                [
-                    'type' => 'web_url',
-                    'title' => 'Latest News',
-                    'url' => 'http://botman.io',
-                    'webview_height_ratio' => 'full',
-                ],
+                ]
             ],
         ],
     ],
