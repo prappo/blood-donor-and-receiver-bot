@@ -42,6 +42,11 @@ class DonorConversation extends Conversation
     {
 
         $this->ask('আপনার মোবাইল নাম্বারটি লিখুন', function (Answer $answer) {
+            if (strlen($answer->getText()) < 11) {
+                $this->say('আপনার মোবাইল নাম্বারটি ১১ ডিজিটের কম ।');
+                $this->askMobile();
+                return;
+            }
             $this->mobile = $answer->getText();
             FbUsers::where('fbId', $this->bot->getUser()->getId())->update([
                 'mobile' => $answer->getText()
@@ -68,14 +73,14 @@ class DonorConversation extends Conversation
     public function askBloodGroup()
     {
         $this->say(Question::create('রক্তের গ্রুপ নির্বাচন করুন')->addButtons([
-            Button::create('A-positive')->value('A-positive-blood'),
-            Button::create('A-negative')->value('A-negative'),
-            Button::create('B-positive')->value('B-positive'),
-            Button::create('B-negative')->value('B-negative'),
-            Button::create('AB-positive')->value('AB-positive'),
-            Button::create('AB-negative')->value('AB-negative'),
-            Button::create('O-positive')->value('O-positive'),
-            Button::create('O-negative')->value('O-negative'),
+            Button::create('A positive')->value('SET_BLOOD_GROUP_USER_A-positive'),
+            Button::create('A negative')->value('SET_BLOOD_GROUP_USER_A-negative'),
+            Button::create('B positive')->value('SET_BLOOD_GROUP_FOR_USER_B-positive'),
+            Button::create('B negative')->value('SET_BLOOD_GROUP_FOR_USER_B-negative'),
+            Button::create('AB positive')->value('SET_BLOOD_GROUP_USER_AB-positive'),
+            Button::create('AB negative')->value('SET_BLOOD_GROUP_USER_AB-negative'),
+            Button::create('O positive')->value('SET_BLOOD_GROUP_FOR_USER_O-positive'),
+            Button::create('O negative')->value('SET_BLOOD_GROUP_FOR_USER_O-negative'),
         ]));
 
 

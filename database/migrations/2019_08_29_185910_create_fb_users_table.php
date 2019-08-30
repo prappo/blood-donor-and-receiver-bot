@@ -22,6 +22,7 @@ class CreateFbUsersTable extends Migration
             $table->string('image')->nullable();
             $table->string('blood_group')->nullable();
             $table->string('type')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
