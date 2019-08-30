@@ -26,6 +26,7 @@ class BotManController extends Controller
 
 
         $botman->hears('hi', function ($bot) {
+
             $bot->reply(ButtonTemplate::create('একটি অপশন বাছাই করুন')
                 ->addButton(ElementButton::create('রক্ত খুঁজছি')
                     ->type('postback')
@@ -112,14 +113,31 @@ class BotManController extends Controller
         });
 
         $botman->hears('DONOR_DETAILS_.*', function (BotMan $bot) {
-            
+
             $id = str_replace('DONOR_DETAILS_', '', $bot->getMessage()->getText());
-            $donor = FbUsers::where('fbId',$id)->first();
-            $bot->reply('নামে : '.$donor->name);
-            $bot->reply('মোবাইল নাম্বার : '.$donor->mobile);
-            $bot->reply('লোকেশন : '.$donor->location);
-            $bot->reply('রক্তেরগ্রুপ : '.$donor->blood_group);
-                
+            $donor = FbUsers::where('fbId', $id)->first();
+            $bot->reply('নামে : ' . $donor->name);
+            $bot->reply('মোবাইল নাম্বার : ' . $donor->mobile);
+            $bot->reply('লোকেশন : ' . $donor->location);
+            $bot->reply('রক্তেরগ্রুপ : ' . $donor->blood_group);
+
+        });
+
+        $botman->fallback(function (Botman $bot) {
+
+            $bot->reply('"রক্ত দিন এবং নিন" একটি স্বয়ংক্রিয় মাধ্যম যেখানে আপনি রক্তদাতা হিসেবে নিবন্ধন করতে পারবেন এবং রক্ত প্রয়োজন হলে রক্তদাতাদের খুঁজতে পারবেন । এই পেইজ এর মেসেজিং কোন মানুষদ্বারা নিয়ন্ত্রিত নয় । ম্যাসেজ এর উত্তর স্বয়ংক্রিয় ।');
+
+            $bot->reply(ButtonTemplate::create('একটি অপশন বাছাই করুন')
+                ->addButton(ElementButton::create('রক্ত খুঁজছি')
+                    ->type('postback')
+                    ->payload('receiver')
+                )
+                ->addButton(ElementButton::create('রক্ত দিব')
+                    ->type('postback')
+                    ->payload('donor')
+                )
+            );
+
         });
 
         $receiveMiddleware = new DefaultMiddleware();
@@ -136,6 +154,9 @@ class BotManController extends Controller
     {
         return view('tinker');
     }
+
+
+
 
 
     /**
