@@ -77,7 +77,7 @@ return [
     'persistent_menu' => [
         [
             'locale' => 'default',
-            'composer_input_disabled' => 'true',
+            'composer_input_disabled' => 'false',
             'call_to_actions' => [
                 [
                     'title' => 'রক্ত লাগবে',
@@ -94,17 +94,12 @@ return [
                     'type' => 'nested',
                     'call_to_actions' => [
                         [
-                            'title' => 'রক্তদাতা হিসেবে নিবন্ধন করুন',
+                            'title' => 'আমার অ্যাকাউন্ট',
                             'type' => 'postback',
-                            'payload' => 'donor',
+                            'payload' => 'MY_ACCOUNT',
                         ],
                         [
-                            'title' => 'এখন রক্ত দিতে চাচ্ছি না',
-                            'type' => 'postback',
-                            'payload' => 'UNSUBSCRIBE',
-                        ],
-                        [
-                            'title' => 'আমার প্রোফাইল ডিলিট করুন',
+                            'title' => 'রক্তদাতা হিসেবে অব্যাহতি',
                             'type' => 'postback',
                             'payload' => 'DELETE_MY_ACCOUNT',
                         ]

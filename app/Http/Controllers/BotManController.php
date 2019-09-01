@@ -41,6 +41,60 @@ class BotManController extends Controller
 
         });
 
+        $botman->hears('DELETE_MY_ACCOUNT', function (BotMan $bot) {
+
+            $bot->reply(ButtonTemplate::create('')
+                ->addButton(ElementButton::create('')
+                    ->type('postback')
+                    ->payload('DEACTIVATE_MY_ACCOUNT')
+                )
+                ->addButton(ElementButton::create('')
+                    ->type('postback')
+                    ->payload('NOT_DEACTIVATE_MY_ACCOUNT')
+                )
+
+            );
+
+        });
+
+        $botman->hears('DEACTIVATE_MY_ACCOUNT', function (BotMan $bot) {
+
+            $id = $bot->getUser()->getId();
+            $user = FbUsers::where('fbId', $id)->first();
+
+            if ($user->status != 'active') {
+                $bot->reply('আপনার প্রোফাইল রক্তদাতাদের তালিকায় নেই ');
+            }
+
+            FbUsers::where('fbId', $id)->update([
+                'status' => 'deactive'
+            ]);
+
+            $bot->reply('আপনার প্রোফাইল রক্তদাতাদের লিস্ট থেকে সরিয়ে নেয়া হয়েছে');
+
+        });
+
+        $botman->hears('NOT_DEACTIVATE_MY_ACCOUNT', function (BotMan $bot) {
+            $bot->reply('ধন্যবাদ');
+        });
+
+        $botman->hears('MY_ACCOUNT', function (BotMan $bot) {
+
+            $fbId = FbUsers::where('fbId', $bot->getUser()->getId())->first();
+            $bot->reply('নাম : ' . $fbId->name);
+            $bot->reply('মোবাইল : ' . $fbId->mobile);
+            $bot->reply('লোকেশন : ' . $fbId->location);
+            $bot->reply('রক্তের গ্রুপ : ' . $fbId->blood_group);
+
+            if ($fbId->status = 'active') {
+                $bot->reply('আপনি সক্রিয় রক্তদাতা হিসবে নিবন্ধিত আছেন ');
+            } else {
+                $bot->reply('আপনার সক্রিয় রক্তদাতা হিসেবে নিবন্ধিত নেই। আপনার প্রোফাইল রক্তদাতাদের তালিকায় নেই । আপনি চাইলে নিবন্ধন করতে পারেন ');
+            }
+
+        });
+
+
         $botman->hears('donor', function ($bot) {
             $bot->startConversation(new DonorConversation());
         });
