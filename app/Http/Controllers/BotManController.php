@@ -32,7 +32,7 @@ class BotManController extends Controller
                     ->type('postback')
                     ->payload('receiver')
                 )
-                ->addButton(ElementButton::create('রক্ত দিন')
+                ->addButton(ElementButton::create('রক্তদাতা নিবন্ধন ')
                     ->type('postback')
                     ->payload('donor')
                 )
@@ -43,12 +43,12 @@ class BotManController extends Controller
 
         $botman->hears('DELETE_MY_ACCOUNT', function (BotMan $bot) {
 
-            $bot->reply(ButtonTemplate::create('')
-                ->addButton(ElementButton::create('')
+            $bot->reply(ButtonTemplate::create('আপনি কি আপনার প্রোফাইল রক্তদাতাদের তালিকা থেকে সরাতে চান ?')
+                ->addButton(ElementButton::create('হ্যাঁ')
                     ->type('postback')
                     ->payload('DEACTIVATE_MY_ACCOUNT')
                 )
-                ->addButton(ElementButton::create('')
+                ->addButton(ElementButton::create('না')
                     ->type('postback')
                     ->payload('NOT_DEACTIVATE_MY_ACCOUNT')
                 )
@@ -84,7 +84,7 @@ class BotManController extends Controller
             $bot->reply('নাম : ' . $fbId->name);
             $bot->reply('মোবাইল : ' . $fbId->mobile);
             $bot->reply('লোকেশন : ' . $fbId->location);
-            $bot->reply('রক্তের গ্রুপ : ' . $fbId->blood_group);
+            $bot->reply('রক্তের গ্রুপ : ' . str_replace('-', ' ', $fbId->blood_group));
 
             if ($fbId->status = 'active') {
                 $bot->reply('আপনি সক্রিয় রক্তদাতা হিসবে নিবন্ধিত আছেন ');
@@ -134,7 +134,7 @@ class BotManController extends Controller
             $bot->reply('নাম : ' . $donor->name);
             $bot->reply('মোবাইল নাম্বার : ' . $donor->mobile);
             $bot->reply('লোকেশন : ' . $donor->location);
-            $bot->reply('রক্তের গ্রুপ : ' . $donor->blood_group);
+            $bot->reply('রক্তের গ্রুপ : ' . str_replace('-', ' ', $donor->blood_group));
 
 
         });
@@ -174,20 +174,20 @@ class BotManController extends Controller
             $bot->reply('নাম : ' . $donor->name);
             $bot->reply('মোবাইল নাম্বার : ' . $donor->mobile);
             $bot->reply('লোকেশন : ' . $donor->location);
-            $bot->reply('রক্তেরগ্রুপ : ' . $donor->blood_group);
+            $bot->reply('রক্তেরগ্রুপ : ' . str_replace('-', ' ', $donor->blood_group));
 
         });
 
         $botman->fallback(function (Botman $bot) {
 
-            $bot->reply('"রক্ত দিন এবং নিন" একটি স্বয়ংক্রিয় মাধ্যম যেখানে আপনি রক্তদাতা হিসেবে নিবন্ধন করতে পারবেন এবং রক্ত প্রয়োজন হলে রক্তদাতাদের খুঁজতে পারবেন । এই পেইজ এর মেসেজিং কোন মানুষদ্বারা নিয়ন্ত্রিত নয় । ম্যাসেজ এর উত্তর স্বয়ংক্রিয় ।');
+            $bot->reply('"রক্তদাতা নিবন্ধন  এবং নিন" একটি স্বয়ংক্রিয় মাধ্যম যেখানে আপনি রক্তদাতা হিসেবে নিবন্ধন করতে পারবেন এবং রক্ত প্রয়োজন হলে রক্তদাতাদের খুঁজতে পারবেন । এই পেইজ এর মেসেজিং কোন মানুষদ্বারা নিয়ন্ত্রিত নয় । ম্যাসেজ এর উত্তর স্বয়ংক্রিয় ।');
 
             $bot->reply(ButtonTemplate::create('একটি অপশন বাছাই করুন')
                 ->addButton(ElementButton::create('রক্তদাতা খুঁজুন')
                     ->type('postback')
                     ->payload('receiver')
                 )
-                ->addButton(ElementButton::create('রক্ত দিন')
+                ->addButton(ElementButton::create('রক্তদাতা নিবন্ধন ')
                     ->type('postback')
                     ->payload('donor')
                 )

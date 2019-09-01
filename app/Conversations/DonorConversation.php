@@ -41,7 +41,7 @@ class DonorConversation extends Conversation
     public function askMobile()
     {
 
-        $this->ask('আপনার মোবাইল নাম্বারটি লিখুন', function (Answer $answer) {
+        $this->ask('সঠিক মোবাইল নাম্বারটি লিখুন', function (Answer $answer) {
             if (strlen($answer->getText()) < 11) {
                 $this->say('আপনার মোবাইল নাম্বারটি ১১ ডিজিটের কম ।');
                 $this->askMobile();
